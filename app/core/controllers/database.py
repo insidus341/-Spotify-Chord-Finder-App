@@ -238,8 +238,8 @@ class Database(object):
             values = (user_id,)
 
             record = self._read(sql, values)
-            if record is not None:
-                record = True
+            if record is None:
+                return None
 
             return record
 

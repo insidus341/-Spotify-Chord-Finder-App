@@ -166,11 +166,11 @@ class Spotify():
         return spotify_user_details
 
     def update_user_access_token_if_invalid(self, authentication_data):
-        user_id = authentication_data[0][1]
+        user_id = authentication_data[1]
         # access_token = authentication_data[0][2]
-        refresh_token = authentication_data[0][3]
-        token_generated = datetime.timestamp(authentication_data[0][4])
-        token_expires_in = authentication_data[0][5]
+        refresh_token = authentication_data[3]
+        token_generated = datetime.timestamp(authentication_data[4])
+        token_expires_in = authentication_data[5]
 
         user_access_token_expired = self.check_if_user_access_token_is_expired(token_expires_in, token_generated)
 
@@ -240,7 +240,7 @@ class Spotify():
         if new_access_token is not None:
             user_access_token = new_access_token
         else:
-            user_access_token = current_user_spotify_authentication[0][2]
+            user_access_token = current_user_spotify_authentication[2]
 
         return user_access_token 
 

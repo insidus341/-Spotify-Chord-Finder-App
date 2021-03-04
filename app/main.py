@@ -27,7 +27,7 @@ def home():
 
     if returning_user:
         user_details = core.get_user_details()
-        username = user_details[0][2]
+        username = user_details[2]
 
         return render_template('index_authed.html', username=username)
     else:

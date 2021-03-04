@@ -71,7 +71,7 @@ class Spotify():
         try:
             random_state = secrets.token_urlsafe(16)
             return random_state
-        except Exception as e:
+        except:
             raise Exception("Unable to generate random secret state")
             
 
@@ -86,16 +86,15 @@ class Spotify():
         # TODO confirm state code is less than a minute old
         state_check_record = self.database.read_spotify_authorization_challenge(spotify_state, connected_clients_ip)
         
-        if state_check_record is not None:
-            record_id = state_check_record[0][0]
-            record_state = state_check_record[0][1]
-            record_generated = state_check_record[0][2]
-
-            if record_state == spotify_state:
-                self.database.delete_authentication_challenge(record_id)
-                return True
+        if state_check_record == spotify_state:
+            return True
         
         return False
+    
+    def delete_spotify_state(self, spotify_state):
+        self.database.delete_spotify_authorization_challenge(spotify_state)
+        return True
+
 
     # Send our authorization code to Spotify to generate access and refresh tokens
     def generate_spotify_access_tokens(self, spotify_code, connected_clients_ip):
@@ -168,7 +167,7 @@ class Spotify():
 
     def update_user_access_token_if_invalid(self, authentication_data):
         user_id = authentication_data[0][1]
-        access_token = authentication_data[0][2]
+        # access_token = authentication_data[0][2]
         refresh_token = authentication_data[0][3]
         token_generated = datetime.timestamp(authentication_data[0][4])
         token_expires_in = authentication_data[0][5]
@@ -178,7 +177,7 @@ class Spotify():
         # If the access token has expired, refresh it
         if user_access_token_expired:
             new_access_tokens = self.refresh_user_access_tokens(refresh_token)
-            saved_new_access_token = self.save_new_access_token_for_user(user_id, new_access_tokens)
+            self.save_new_access_token_for_user(user_id, new_access_tokens)
             
             return new_access_tokens['access_token']
         

@@ -41,7 +41,7 @@ class Database(object):
             else:
                 self.database_connection.ping()
 
-        except Exception as e:
+        except:
             if self.db_connection_attempts == 0:
                 self.db_connection_attempts = 1
                 self.database_connection = None
@@ -84,13 +84,16 @@ class Database(object):
         if len(record) == 0:
             return None
         else:
-            return record
+            return record[0][1]
 
     def _delete(self, statement, values):
         cursor = self._get_cursor()
         cursor.execute(statement, values)
         self.database_connection.commit()
+        rowcount = cursor.rowcount
         cursor.close()
+
+        return rowcount
 
 
     # Inserts an authentication challenge into the database
@@ -110,7 +113,7 @@ class Database(object):
             # this confirms that the state was saved
             return random_state
 
-        except Exception as e:
+        except:
             raise Exception("Unable to insert authentication challenge into the database")
 
     # Read authentication challenges from the database
@@ -127,16 +130,16 @@ class Database(object):
 
             return self._read(sql, values)
 
-        except Exception as e:
+        except:
             raise Exception("Database connection failed")
 
-    def delete_authentication_challenge(self, record_id):
+    def delete_spotify_authorization_challenge(self, state):
         try:
-            sql = "DELETE FROM authentication_challenges WHERE id = ?"
-            values = (record_id,)
-            self._delete(sql, values)
+            sql = "DELETE FROM authentication_challenges WHERE challenge = ?"
+            values = (state,)
+            return self._delete(sql, values)
 
-        except Exception as e:
+        except:
             raise Exception("Database connection failed")
 
     # Checks the `users` table for the Spotify user
@@ -156,7 +159,7 @@ class Database(object):
             user_id = record[0][0]
             return user_id
 
-        except Exception as e:
+        except:
             raise Exception("Unable to read the user from the database")
 
     # Get spotify user data
@@ -174,7 +177,7 @@ class Database(object):
             # If we found the user, return it
             return record
 
-        except Exception as e:
+        except:
             raise Exception("Unable to read the user from the database")
 
     # Insert a new Spotify user
@@ -197,7 +200,7 @@ class Database(object):
             # return the row id
             return row_id
 
-        except Exception as e:
+        except:
             raise Exception("Unable to save the user in the Database")
 
     # Insert the users Access and Refresh tokens
@@ -220,7 +223,7 @@ class Database(object):
             # Return the row ID that was created
             return row_id
 
-        except Exception as e:
+        except:
             raise Exception("Database connection failed")
 
     def read_user_access_tokens(self, user_id):
@@ -234,7 +237,7 @@ class Database(object):
             record = self._read(sql, values)
             return record
 
-        except Exception as e:
+        except:
             raise Exception("Database connection failed")
 
     def update_user_access_token(self, user_id, new_access_tokens, includes_refresh_token = False):
@@ -261,7 +264,7 @@ class Database(object):
         try:
             self._update(sql, values)
 
-        except Exception as e:
+        except:
             raise Exception("Database connection failed")
 
     def insert_user_login_token(self, user_id, login_token, expires_in):
@@ -274,7 +277,7 @@ class Database(object):
             # Return the token ID that was created
             return row_id
 
-        except Exception as e:
+        except:
             raise Exception("Database connection failed")
 
     def read_user_login_token(self, token_id, user_id):
@@ -287,7 +290,7 @@ class Database(object):
             # Return the user record
             return record
 
-        except Exception as e:
+        except:
             raise Exception("Database connection failed")
 
     def update_user_login_token(self, token_id, user_id):
@@ -297,7 +300,7 @@ class Database(object):
 
             self._update(sql, values)  
 
-        except Exception as e:
+        except:
             raise Exception("Database connection failed")
 
     def delete_user_login_token(self, token_id, user_id):
@@ -307,7 +310,7 @@ class Database(object):
 
             self._delete(sql, values)
 
-        except Exception as e:
+        except:
             raise Exception("Database connection failed")
 
     def read_song_data(self, spotify_uri):
@@ -319,7 +322,7 @@ class Database(object):
             # Return the user record
             return record
 
-        except Exception as e:
+        except:
             raise Exception("Database connection failed")
 
     def insert_song_data(self, name, artist, album, spotify_uri, chords_url):
@@ -332,5 +335,5 @@ class Database(object):
             # Return the token ID that was created
             return row_id
 
-        except Exception as e:
+        except:
             raise Exception("Database connection failed")

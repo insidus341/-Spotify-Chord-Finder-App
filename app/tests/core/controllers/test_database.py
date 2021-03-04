@@ -48,15 +48,24 @@ def test_read_spotify_authorization_challenge_state_does_not_exist():
     from app.core.controllers.database import Database
     database = Database.Instance()
 
-    with pytest.raises(Exception):
-        database.read_spotify_authorization_challenge('random_state_that_wont_work', TEST_CONNECTED_CLIENTS_IP)
+    state = database.read_spotify_authorization_challenge('random_state_that_wont_work', TEST_CONNECTED_CLIENTS_IP)
+    assert state is None
+        
 
 def test_read_spotify_authorization_challenge_client_ip_does_not_exist():
     from app.core.controllers.database import Database
     database = Database.Instance()
 
-    with pytest.raises(Exception):
-        database.read_spotify_authorization_challenge(TEST_RANDOM_STATE, '127.0.432.1')
+    state = database.read_spotify_authorization_challenge(TEST_RANDOM_STATE, '127.0.432.1')
+    assert state is None
+
+def test_delete_spotify_authorization_challenge():
+    from app.core.controllers.database import Database
+    database = Database.Instance()
+
+    count = database.delete_spotify_authorization_challenge(TEST_RANDOM_STATE)
+    assert count > 0
+        
 
 
 

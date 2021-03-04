@@ -36,7 +36,7 @@ def test_check_spotify_state_exists():
         
     spotify._save_generated_random_state(random_state, TEST_CONNECTED_CLIENTS_IP)
     saved_state = spotify.check_spotify_state_exists(random_state, TEST_CONNECTED_CLIENTS_IP)
-    assert saved_state == random_state
+    assert saved_state is True
  
 def test_get_callback_url_web_request_to_spotify():
     from app.core.controllers.spotify import Spotify

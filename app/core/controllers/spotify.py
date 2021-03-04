@@ -113,7 +113,7 @@ class Spotify():
         params = {
             "code": spotify_code,
             "grant_type": "authorization_code",
-            "redirect_uri": get_env("SPOTIFY_REDIRECT_URI"),
+            "redirect_uri": get_env("APP_URL") + get_env("SPOTIFY_REDIRECT_URI"),
         }
 
         # Make the request against Spotify

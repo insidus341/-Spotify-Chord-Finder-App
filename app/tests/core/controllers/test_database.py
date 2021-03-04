@@ -66,7 +66,12 @@ def test_delete_spotify_authorization_challenge():
     count = database.delete_spotify_authorization_challenge(TEST_RANDOM_STATE)
     assert count > 0
         
+def test_read_spotify_user_from_database():
+    from app.core.controllers.database import Database
+    database = Database.Instance()
 
+    record = database.read_spotify_user_id_from_spotify_id(12345)
+    assert record is None
 
 
 # insert_spotify_authentication_and_userdata

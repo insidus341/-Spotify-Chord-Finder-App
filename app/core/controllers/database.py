@@ -145,7 +145,7 @@ class Database(object):
     # Checks the `users` table for the Spotify user
     # Returns the user ID if the Spotify ID exists
     def read_spotify_user_id_from_spotify_id(self, spotify_user_id):
-        print("checking for exisiting user: " + spotify_user_id)
+        print("checking for exisiting user: {0}".format(spotify_user_id))
         try:
             sql = "SELECT id FROM users WHERE spotify_user_id = ?"
             values = (spotify_user_id,)
@@ -160,7 +160,7 @@ class Database(object):
             return user_id
 
         except:
-            raise Exception("Unable to read the user from the database")
+            raise Exception("read_spotify_user_id_from_spotify_id: Unable to read the user from the database")
 
     # Get spotify user data
     def read_spotify_user_data(self, user_id):
@@ -171,14 +171,14 @@ class Database(object):
             record = self._read(sql, values)
 
             # If we didn't find a user return None
-            if len(record) == 0:
+            if record is None:
                 return None
 
             # If we found the user, return it
             return record
 
         except:
-            raise Exception("Unable to read the user from the database")
+            raise Exception("read_spotify_user_data: Unable to read the user from the database")
 
     # Insert a new Spotify user
     def insert_spotify_user(self, spotify_user_data, connected_clients_ip):

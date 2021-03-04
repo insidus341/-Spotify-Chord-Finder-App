@@ -84,7 +84,7 @@ class Database(object):
         if len(record) == 0:
             return None
         else:
-            return record[0][1]
+            return record[0]
 
     def _delete(self, statement, values):
         cursor = self._get_cursor()
@@ -128,7 +128,11 @@ class Database(object):
             sql = "SELECT id, challenge, generated FROM authentication_challenges WHERE clients_ip_addr = ? AND challenge = ? ORDER BY id DESC LIMIT 1;"
             values = (connected_clients_ip, spotify_state)
 
-            return self._read(sql, values)
+            record = self._read(sql, values)
+            if record is None:
+                return None
+                
+            return record[1]
 
         except:
             raise Exception("Database connection failed")
@@ -156,8 +160,7 @@ class Database(object):
                 return None
 
             # If we did find a result, return the users id
-            user_id = record[0][0]
-            return user_id
+            return record
 
         except:
             raise Exception("read_spotify_user_id_from_spotify_id: Unable to read the user from the database")

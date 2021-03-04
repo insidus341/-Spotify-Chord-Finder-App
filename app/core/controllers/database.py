@@ -131,7 +131,7 @@ class Database(object):
             record = self._read(sql, values)
             if record is None:
                 return None
-                
+
             return record[1]
 
         except:
@@ -238,6 +238,9 @@ class Database(object):
             values = (user_id,)
 
             record = self._read(sql, values)
+            if record is not None:
+                record = True
+                
             return record
 
         except:

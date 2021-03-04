@@ -79,15 +79,18 @@ class Core():
         if existing_user_id:
             print("is an existing user")
 
-            user_access_tokens_exist = self.database.read_user_access_tokens(existing_user_id)
+            print("checking for exists access tokens")
+            user_access_tokens = self.database.read_user_access_tokens(existing_user_id)
             
             # user exists and they have existing access/refresh tokens
             # we must override the existing tokens 
             if user_access_tokens_exist:
+                print("updating user access tokens..")
                 self.database.update_user_access_token(existing_user_id, spotify_access_and_refresh_tokens, True)
                 
             # user exists but they don't have any access tokens
             elif user_access_tokens_exist is None:
+                print("access tokens do not exist")
                 self.database.insert_spotify_user_access_tokens(existing_user_id, spotify_access_and_refresh_tokens)
             
         # New user

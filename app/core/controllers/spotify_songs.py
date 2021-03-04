@@ -15,16 +15,19 @@ class Spotify_songs():
     def get_song_chords_url(self, spotify_uri, song_name, artist_name, album_name=''):
         # if we have saved song and chord data for this song already, lets not waste a Google API call
         saved_song = self.get_song_from_database(spotify_uri)
+        print("saved_song: {0}".format(saved_song))
         if saved_song:
-            url = saved_song[0][5]
+            url = saved_song[5]
             return url
 
         # Get the chords url, if it exists
         chords_url = self.get_chords_url_from_google_search_api(song_name, artist_name)
+        print("chords_url: {0}".format(chords_url))
         
         # If we have a good chord URL, let's save this alongside the spotify song data
         # return the chords URL
         if chords_url is not None:
+            print("saving song into database")
             self.save_song_into_database(song_name, artist_name, album_name, spotify_uri, chords_url)
             return chords_url
         
@@ -58,6 +61,8 @@ class Spotify_songs():
 
                 return chords_url  
 
+        if response.status_code != 200:
+            print("unable to get song from Google, status code {0}".format(response.status_code))
         return None
 
     def format_google_search_string(self, song_name, artist_name):

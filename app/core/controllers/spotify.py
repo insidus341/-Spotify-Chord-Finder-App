@@ -256,6 +256,7 @@ class Spotify():
             }
 
             users_current_playing_song = self.get_current_playing_song_web_request(url, headers)
+            print("current song: {0}".format(users_current_playing_song))
             return users_current_playing_song
 
     def get_current_playing_song_web_request(self, url, headers=None, params=None):

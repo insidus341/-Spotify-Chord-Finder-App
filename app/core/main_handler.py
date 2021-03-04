@@ -83,8 +83,8 @@ class Core():
 
             print("checking for exists access tokens")
             try:
-                user_access_tokens = self.database.read_user_access_tokens(existing_user_id)
-                print(user_access_tokens)
+                user_access_tokens_exist = self.database.read_user_access_tokens(existing_user_id)
+                print(user_access_tokens_exist)
             except Exception as e:
                 print(e)
                 raise Exception("unable to get user access tokens")

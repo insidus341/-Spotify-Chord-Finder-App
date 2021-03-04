@@ -34,7 +34,7 @@ class Spotify():
         params = {
             "client_id": get_env("SPOTIFY_CLIENT_ID"),
             "response_type": "code",
-            "redirect_uri": get_env("SPOTIFY_REDIRECT_URI"),
+            "redirect_uri": get_env("APP_URL") + get_env("SPOTIFY_REDIRECT_URI"),
             "scope": "user-read-email user-read-private user-read-currently-playing user-modify-playback-state user-read-playback-state",
             "state": random_state
         }

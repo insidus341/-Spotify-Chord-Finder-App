@@ -57,7 +57,7 @@ class Core():
         
         state_check = self.spotify.check_spotify_state_exists(spotify_state, connected_clients_ip)
         if state_check:
-            self.spotify.delete_spotify_authorization_challenge(spotify_state)
+            self.spotify.delete_spotify_state(spotify_state)
         
         return state_check
 

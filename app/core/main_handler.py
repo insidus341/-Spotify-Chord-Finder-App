@@ -74,6 +74,8 @@ class Core():
         spotify_user_id = spotify_user_details['id']
         # existing_user_id = self.database.read_spotify_user_data(spotify_user_id)
         existing_user_id = self.database.read_spotify_user_id_from_spotify_id(spotify_user_id)
+        print("spotify user id: {0}".format(spotify_user_id))
+        print("existing id: {0}".format(existing_user_id))
 
         # Existing user
         if existing_user_id:

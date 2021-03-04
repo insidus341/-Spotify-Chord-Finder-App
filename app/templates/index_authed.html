@@ -1,0 +1,24 @@
+{% include "header.html" %}
+
+<dir class="container">
+    <div class="row">
+        <div class="col-md-8">
+            <p><span class="song_name"></span> <span class="artist_name"></span></p>
+        </div>
+        <div class="col-md-4 align-right">
+            <p><span class=username>{{username}}</span></p>
+            <p><a href="/logout">Logout</a></p>
+        </div>
+    </div>
+</div>
+
+<div class="container">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="iframe_wrapper">
+                <iframe id="main_iframe" src="" frameborder="0"></iframe>
+            </div>
+        </div>
+    </div>
+</dir>
+{% include "footer.html" %}

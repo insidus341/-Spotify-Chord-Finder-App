@@ -1,1 +1,1 @@
-# -Spotify-Chord-Finder-App
+# Spotify-Chord-Finder-App

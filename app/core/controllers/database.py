@@ -293,6 +293,9 @@ class Database(object):
 
             record = self._read(sql, values)
 
+            if record is None:
+                return None
+
             # Return the user record
             return record
 

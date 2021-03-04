@@ -44,6 +44,8 @@ class Session():
             session_token = Flask_Session['session_token']
 
             stored_session_token = self.database.read_user_login_token(token_id, user_id)
+            print("stored_session_token: {0}".format(stored_session_token))
+            
             if stored_session_token is not None and stored_session_token[0] == session_token:
                 return True
 

@@ -325,9 +325,9 @@ class Database(object):
             values = (spotify_uri,)
             record = self._read(sql, values)
 
-            if record = None:
+            if record == None:
                 return None
-                
+
             # Return the user record
             return record
 

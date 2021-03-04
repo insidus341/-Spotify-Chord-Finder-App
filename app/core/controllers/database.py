@@ -160,7 +160,7 @@ class Database(object):
                 return None
 
             # If we did find a result, return the users id
-            return record
+            return record[0]
 
         except:
             raise Exception("read_spotify_user_id_from_spotify_id: Unable to read the user from the database")
@@ -240,7 +240,7 @@ class Database(object):
             record = self._read(sql, values)
             if record is not None:
                 record = True
-                
+
             return record
 
         except:

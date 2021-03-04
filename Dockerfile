@@ -7,8 +7,8 @@ RUN pip3 install -r /requirements.txt
 
 ENV STATIC_PATH /app/app/static
 
-COPY ./app /app
-# COPY .env /app/.env
+COPY ./app /app/app
+COPY ./entrypoint.py /app
 COPY ./deployment/uwsgi.ini /app
 
 EXPOSE 80

@@ -80,7 +80,12 @@ class Core():
             print("is an existing user")
 
             print("checking for exists access tokens")
-            user_access_tokens = self.database.read_user_access_tokens(existing_user_id)
+            try:
+                user_access_tokens = self.database.read_user_access_tokens(existing_user_id)
+                print(user_access_tokens)
+            except Exception as e:
+                print(e)
+                raise Exception("unable to get user access tokens")
             
             # user exists and they have existing access/refresh tokens
             # we must override the existing tokens 

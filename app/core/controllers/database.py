@@ -324,7 +324,7 @@ class Database(object):
 
     def read_song_data(self, spotify_uri):
         try:
-            sql = "SELECT id, name, artist, album, spotify_uri, chords_url, date_added FROM songs WHERE spotify_uri = ?"
+            sql = "SELECT id, name, artist, album, spotify_uri, chords_url, date_added, is_valid, is_failing_search FROM songs WHERE spotify_uri = ?"
             values = (spotify_uri,)
             record = self._read(sql, values)
 
@@ -337,10 +337,10 @@ class Database(object):
         except:
             raise Exception("Database connection failed")
 
-    def insert_song_data(self, name, artist, album, spotify_uri, chords_url):
+    def insert_song_data(self, name, artist, album, spotify_uri, chords_url, is_valid, is_failing_search):
         try:
-            sql = "INSERT INTO songs (name, artist, album, spotify_uri, chords_url) VALUES (?, ?, ?, ?, ?)"
-            values = (name, artist, album, spotify_uri, chords_url)
+            sql = "INSERT INTO songs (name, artist, album, spotify_uri, chords_url, is_valid, is_failing_search) VALUES (?, ?, ?, ?, ?, ?, ?)"
+            values = (name, artist, album, spotify_uri, chords_url, is_valid, is_failing_search)
            
             row_id = self._insert(sql, values)
 

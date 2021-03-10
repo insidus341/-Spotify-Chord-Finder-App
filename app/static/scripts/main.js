@@ -5,8 +5,10 @@ function get_current_playing_song() {
 
         if (data['ok'] == true)
         {
-            song = data['song']
-            process_playing_song_data(song)
+            process_playing_song_data(data['song'])
+        }
+        else {
+            console.log("We were unable to get the chords URL, try again later")
         }
     })
         // .done(function() {
@@ -31,6 +33,8 @@ $( document ).ready(function() {
 
 function process_playing_song_data(song) {
     console.log(song)
+    console.log(song['song_name'])
+    console.log(song['chords_url'])
     chords_url = song['chords_url']
 
     if (chords_url != previously_viewed_chords_url)

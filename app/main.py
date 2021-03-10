@@ -88,6 +88,9 @@ def spotify_get_current_song():
 
     if current_song:
         output = current_song
+    
+    print("****")
+    print(output)
         
     return output
 

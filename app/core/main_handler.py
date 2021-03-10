@@ -1,12 +1,8 @@
+from app.core.singleton import Singleton
 from app.core.controllers.spotify import Spotify
 from app.core.controllers.database import Database
-from app.core.controllers.settings import get_env
 from app.core.controllers.sessions import Session
 from app.core.controllers.spotify_songs import Spotify_songs
-
-from app.core.singleton import Singleton
-
-import requests
 
 @Singleton
 class Core():
@@ -142,17 +138,20 @@ class Core():
             album_name = current_song['item']['album']['name']
             spotify_uri = current_song['item']['uri']
 
-            current_song_tab_url = self.spotify_songs.get_song_chords_url(spotify_uri, song_name, artist_name, album_name)
-
+            saved_song = self.spotify_songs.get_song_chords_url(spotify_uri, song_name, artist_name, album_name)
             output = {
-                "ok": True,
+                "ok": False,
                 "song": {
                     "song_name": song_name,
                     "artist_name": artist_name,
                     "album_name": album_name,
-                    "chords_url": current_song_tab_url
+                    "chords_url": False
                 }
             }
+
+            if saved_song is not False and saved_song[8] == 0:
+                output['ok'] = True
+                output['song']['chords_url'] = saved_song[5]
 
             return output
         

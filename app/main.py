@@ -1,6 +1,6 @@
 # from app import app
 
-from flask import Flask, request, redirect, render_template
+from flask import Flask, request, redirect, render_template, Response
 
 from app.core.main_handler import Core
 from app.core.controllers.settings import get_env
@@ -33,6 +33,7 @@ def home():
     else:
         return render_template('index.html', returning_user=returning_user)
 
+
 @app.route('/login', methods=["GET"])
 def login():
     connected_clients_ip = request.remote_addr
@@ -48,6 +49,7 @@ def login():
     
     return redirect(redirect_url, 302)
 
+
 @app.route('/logout', methods=["GET"])
 def logout():
     try:
@@ -56,6 +58,7 @@ def logout():
         return render_template('error.html')
 
     return redirect(get_env('APP_URL'), 302)
+
 
 @app.route('/spotify/callback', methods=["GET"])
 def spotify_callback():
@@ -72,6 +75,7 @@ def spotify_callback():
             return render_template('error.html')
 
     return redirect(get_env('APP_URL'), 302)
+
 
 @app.route('/spotify/get_current_song', methods=["GET"])
 def spotify_get_current_song():
@@ -93,6 +97,20 @@ def spotify_get_current_song():
     print(output)
         
     return output
+
+
+@app.route('/get_song_page_html', methods=["GET"])
+def get_song_page_html():
+    url = request.args.get('url')
+
+    response = requests.get(url)
+    if response.status_code == 200:
+        content = response.content.decode("utf-8")
+
+        return Response(content, 200)
+
+    return Response("nice", 500)
+
 
 if __name__ == '__main__':
     app.run(
